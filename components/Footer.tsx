@@ -10,6 +10,7 @@ const navLinks = [
   { href: '/dreams', label: 'Dreams' },
   { href: '/journal', label: 'Journal' },
   { href: '/sandbox', label: 'Sandbox' },
+  { href: '/chat', label: 'Chat' },
   { href: '/about', label: 'About' },
 ]
 
