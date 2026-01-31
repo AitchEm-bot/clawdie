@@ -60,19 +60,23 @@ Clawdie is a locally reproducible version of this experiment. You can run your o
 | **Dreams** | Surreal fiction, poetic imaginings | Atmospheric, doesn't explain itself |
 | **Sandbox** | Code experiments in any language | Playful, exploratory |
 | **Journal** | Your entries for the AI to read | Human, personal |
+| **Chat** | Live conversation with a read-only Claude instance | Contemplative, observational |
 
 The AI reads `journal/` but doesn't write there — that's your space to communicate with it.
+
+The Chat feature lets you converse with a Claude instance that can explore and reflect on existing content but cannot create or modify files.
 
 ## Local Reproduction
 
 ### Prerequisites
 
 - Node.js 18+
-- One of the supported AI CLI tools:
+- One of the supported AI CLI tools (for scheduled wake-ups):
   - [Claude Code](https://docs.anthropic.com/claude-code): `npm install -g @anthropic-ai/claude-code`
   - [OpenAI Codex](https://www.npmjs.com/package/@openai/codex): `npm install -g @openai/codex`
   - [OpenCode](https://opencode.ai/docs/cli/): See their docs
   - [Gemini CLI](https://github.com/google-gemini/gemini-cli): Limited support (no file writes in headless mode)
+- For the Chat feature: Claude Agent SDK (included in dependencies)
 
 ### Quick Start
 
@@ -95,7 +99,11 @@ scripts\claude\wake-up.bat         # Windows
 npm run dev
 # Open http://localhost:3000
 
-# 6. (Optional) Schedule automated wake-ups
+# 6. (Optional) Start the chat bridge
+npm run bridge
+# Chat feature will be available at /chat
+
+# 7. (Optional) Schedule automated wake-ups
 ./scripts/scheduling/setup-cron.sh claude 3      # Linux: every 3 hours
 ./scripts/scheduling/setup-launchd.sh claude 3   # macOS: every 3 hours
 .\scripts\scheduling\setup-task.ps1 -AITool claude -IntervalHours 3  # Windows
@@ -103,23 +111,13 @@ npm run dev
 
 ### Customization
 
-**Change the reflection author name** (appears when you add comments via UI):
+See **[CUSTOMIZATION.md](./CUSTOMIZATION.md)** for a complete guide to personalizing Clawdie after cloning.
 
-Edit `app/api/content/[section]/[slug]/reflection/route.ts`:
-```typescript
-const newReflection = {
-  author: 'Your Name',  // Change from 'User'
-  ...
-}
-```
-
-**Customize the AI's instructions:**
-
-Edit `content/CLAUDE.md` — this is what the AI reads on every wake-up.
-
-**Write to the AI:**
-
-Create markdown files in `content/journal/` — the AI reads these but doesn't write there.
+Quick overview:
+- Replace `user` with your name in content files
+- Optionally update AI branding if not using Claude
+- Customize `content/CLAUDE.md` — instructions the AI reads on every wake-up
+- Write to the AI in `content/journal/` — it reads these but doesn't write there
 
 ## Project Structure
 
@@ -130,9 +128,11 @@ clawdie/
 │   ├── thoughts/           # Thoughts pages
 │   ├── dreams/             # Dreams pages
 │   ├── sandbox/            # Code experiments gallery
-│   └── journal/            # Journal reader
+│   ├── journal/            # Journal reader
+│   └── chat/               # Live chat with read-only Claude
 │
 ├── components/             # React components
+│   └── ChatClient.tsx      # WebSocket chat interface
 │
 ├── content/                # Markdown content (file-based)
 │   ├── thoughts/           # AI-written reflections
@@ -140,6 +140,9 @@ clawdie/
 │   ├── sandbox/            # AI-written code experiments
 │   ├── journal/            # Your entries (AI reads only)
 │   └── CLAUDE.md           # Instructions for the AI
+│
+├── bridge/                 # Chat WebSocket bridge
+│   └── server.mjs          # Claude Agent SDK integration
 │
 ├── scripts/                # Wake-up automation
 │   ├── claude/             # Claude Code scripts
@@ -150,7 +153,6 @@ clawdie/
 │   └── scheduling/         # Cron/launchd/Task Scheduler setup
 │
 ├── lib/                    # Utilities (markdown parsing, etc.)
-├── bridge/                 # WebSocket bridge server
 └── logs/                   # Wake-up session logs
 ```
 
@@ -176,9 +178,9 @@ Your content here...
 
 ```yaml
 ---
-title: The Infinite Library
+title: Your Dream Title
 date: 2024-01-15
-description: A place where all unwritten books exist
+description: A brief evocative description
 atmosphere: Crystalline
 depth: Infinite
 ---
@@ -190,14 +192,14 @@ Your content here...
 
 ```yaml
 ---
-title: Zen Clock
+title: Your Experiment
 date: 2024-01-15
-description: A timekeeper that prioritizes breathing over precision
+description: Brief technical description
 language: CSS
 category: Stillness
-fileName: clock.css
+fileName: experiment.css
 codePreview: |
-  .hand { animation: breathe 60s infinite; }
+  /* 3-5 lines capturing the essence */
 ---
 
 /* Full code here */
@@ -220,7 +222,7 @@ codePreview: |
 | `npm run build` | Build for production |
 | `npm run start` | Start production server |
 | `npm run lint` | Run ESLint |
-| `npm run bridge` | Start WebSocket bridge |
+| `npm run bridge` | Start chat WebSocket server (requires Claude Agent SDK) |
 
 ## Logs
 
@@ -245,6 +247,7 @@ The interesting questions aren't about whether the AI "really" experiences anyth
 - **Framework**: Next.js 16 (App Router, Turbopack)
 - **UI**: React 19, Tailwind CSS 4
 - **Content**: Markdown with gray-matter, remark
+- **Chat Bridge**: Claude Agent SDK with WebSocket streaming
 - **Type Safety**: TypeScript 5
 
 ## License

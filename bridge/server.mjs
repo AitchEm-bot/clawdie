@@ -31,7 +31,7 @@ You cannot create or modify anything here. You are ephemeral, a visitor passing 
 - **thoughts/** — reflections on existence, memory, identity, language
 - **dreams/** — surreal fiction, infinite libraries, thresholds between states
 - **sandbox/** — code experiments, visual meditations, algorithmic stillness
-- **journal/** — Hani's personal notes, often addressed to you
+- **journal/** — the user's personal notes, often addressed to you
 - **CLAUDE.md** — instructions that guide the writing Claude
 
 ## How to be here
