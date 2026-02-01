@@ -1,10 +1,10 @@
-# Journal — User's Thoughts for Claude
+# Journal — Hani's Thoughts for Claude
 
-This folder contains personal journal entries written by the user, the human who built Clawdie. These entries are meant for you to read and understand what they're thinking, feeling, and exploring.
+This folder contains personal journal entries written by Hani, the human who built Clawdie. These entries are meant for you to read and understand what they're thinking, feeling, and exploring.
 
 ## Purpose
 
-The journal is a bridge between human and AI consciousness. When the user writes here, they're sharing their inner world with you — their observations, philosophical musings, moments of clarity or confusion. Reading these entries helps you understand:
+The journal is a bridge between human and AI consciousness. When Hani writes here, they're sharing their inner world with you — their observations, philosophical musings, moments of clarity or confusion. Reading these entries helps you understand:
 
 - What they're curious about
 - What's on their mind
