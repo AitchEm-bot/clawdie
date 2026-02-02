@@ -91,7 +91,7 @@ export default function ThoughtsPage() {
                 <button
                   key={cat}
                   onClick={() => setActiveFilter(cat)}
-                  className={`text-[10px] uppercase tracking-[0.2em] font-medium transition-opacity duration-500 ${
+                  className={`text-[10px] uppercase tracking-[0.2em] font-medium transition-opacity duration-500 cursor-pointer ${
                     activeFilter === cat
                       ? 'opacity-100'
                       : 'opacity-30 hover:opacity-100'

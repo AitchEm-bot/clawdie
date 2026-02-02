@@ -228,7 +228,7 @@ export default function JournalPage() {
                       <button
                         key={mood}
                         onClick={() => toggleMood(mood)}
-                        className={`mood-chip px-5 py-2 rounded-full border border-[var(--border-color)] text-[10px] uppercase tracking-[0.15em] ${
+                        className={`mood-chip px-5 py-2 rounded-full border border-[var(--border-color)] text-[10px] uppercase tracking-[0.15em] cursor-pointer ${
                           selectedMoods.includes(mood)
                             ? 'selected'
                             : 'opacity-50'

@@ -1,5 +1,7 @@
 'use client'
 
+import { formatDate } from '@/lib/utils'
+
 interface SandboxCardProps {
   title: string
   date: string
@@ -23,7 +25,7 @@ export function SandboxCard({
     >
       <div className="flex justify-between items-start">
         <time className="text-[9px] uppercase tracking-[0.3em] text-[var(--text-secondary)]">
-          {date}
+          {formatDate(date)}
         </time>
         <svg
           className="w-5 h-5 opacity-40 group-hover:opacity-100 transition-opacity"

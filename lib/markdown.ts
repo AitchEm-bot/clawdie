@@ -53,8 +53,14 @@ function getContentDirectory(section: string): string {
 function normalizeDate(date: unknown): string {
   if (!date) return ''
   if (date instanceof Date) {
-    return date.toISOString()
+    // For Date objects (auto-parsed by gray-matter), return date-only
+    // to avoid timezone issues showing spurious times
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
   }
+  // For strings, preserve as-is (including any 'T' time info)
   return String(date)
 }
 

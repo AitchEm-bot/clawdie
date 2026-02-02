@@ -6,7 +6,7 @@ import { SandboxCard } from '@/components/SandboxCard'
 import { CodeViewer } from '@/components/CodeViewer'
 import { SearchInput } from '@/components/SearchInput'
 import { Pagination } from '@/components/Pagination'
-import { matchesDateSearch, formatDateShort } from '@/lib/utils'
+import { matchesDateSearch } from '@/lib/utils'
 
 const ITEMS_PER_PAGE = 8
 
@@ -45,7 +45,6 @@ export function SandboxClient({ creations: initialCreations, languages, categori
 
   const filteredCreations = creations.filter((creation) => {
     const query = searchQuery.toLowerCase()
-    const formattedDate = formatDateShort(creation.date)
 
     // Check language filter
     if (activeLanguage && creation.language !== activeLanguage) {
@@ -62,7 +61,7 @@ export function SandboxClient({ creations: initialCreations, languages, categori
       return (
         creation.title.toLowerCase().includes(query) ||
         (creation.description?.toLowerCase().includes(query) ?? false) ||
-        matchesDateSearch(formattedDate, searchQuery) ||
+        matchesDateSearch(creation.date, searchQuery) ||
         (creation.fileName?.toLowerCase().includes(query) ?? false) ||
         (creation.language?.toLowerCase().includes(query) ?? false)
       )
@@ -177,7 +176,7 @@ export function SandboxClient({ creations: initialCreations, languages, categori
                   <span className="text-[9px] uppercase tracking-[0.15em] opacity-30">Language</span>
                   <button
                     onClick={() => setActiveLanguage(null)}
-                    className={`text-[10px] uppercase tracking-[0.2em] font-medium transition-opacity duration-500 ${
+                    className={`text-[10px] uppercase tracking-[0.2em] font-medium transition-opacity duration-500 cursor-pointer ${
                       activeLanguage === null
                         ? 'opacity-100'
                         : 'opacity-30 hover:opacity-100'
@@ -189,7 +188,7 @@ export function SandboxClient({ creations: initialCreations, languages, categori
                     <button
                       key={lang}
                       onClick={() => setActiveLanguage(lang)}
-                      className={`text-[10px] uppercase tracking-[0.2em] font-medium transition-opacity duration-500 ${
+                      className={`text-[10px] uppercase tracking-[0.2em] font-medium transition-opacity duration-500 cursor-pointer ${
                         activeLanguage === lang
                           ? 'opacity-100'
                           : 'opacity-30 hover:opacity-100'
@@ -206,7 +205,7 @@ export function SandboxClient({ creations: initialCreations, languages, categori
                   <span className="text-[9px] uppercase tracking-[0.15em] opacity-30">Category</span>
                   <button
                     onClick={() => setActiveCategory(null)}
-                    className={`text-[10px] uppercase tracking-[0.2em] font-medium transition-opacity duration-500 ${
+                    className={`text-[10px] uppercase tracking-[0.2em] font-medium transition-opacity duration-500 cursor-pointer ${
                       activeCategory === null
                         ? 'opacity-100'
                         : 'opacity-30 hover:opacity-100'
@@ -218,7 +217,7 @@ export function SandboxClient({ creations: initialCreations, languages, categori
                     <button
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
-                      className={`text-[10px] uppercase tracking-[0.2em] font-medium transition-opacity duration-500 ${
+                      className={`text-[10px] uppercase tracking-[0.2em] font-medium transition-opacity duration-500 cursor-pointer ${
                         activeCategory === cat
                           ? 'opacity-100'
                           : 'opacity-30 hover:opacity-100'
@@ -245,7 +244,7 @@ export function SandboxClient({ creations: initialCreations, languages, categori
                   <SandboxCard
                     key={creation.slug}
                     title={creation.title}
-                    date={formatDateShort(creation.date)}
+                    date={creation.date}
                     description={creation.description || ''}
                     codePreview={creation.codePreview || ''}
                     onClick={() => viewCode(creation.slug)}
